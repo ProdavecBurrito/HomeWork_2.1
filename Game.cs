@@ -67,24 +67,21 @@ namespace HomeWork_2_1
         {
             _objs = new BaseObject[60];
             int objCount = _objs.Length;
-            int k = 0;
             for (int j = 0; j < _objs.Length / 10; j++)
             {
                 for (int i = 0; i < 7; i++)
                 {
-                    _objs[_objs.Length - objCount] = new Star(new Point(rand.Next(100, 700), rand.Next(1,30) * rand.Next(15, 30)), new Point(-k, -k), new Size(rand.Next(5, 10), rand.Next(5, 10)));
+                    _objs[_objs.Length - objCount] = new Star(new Point(rand.Next(100, 700), rand.Next(1,30) * rand.Next(15, 30)), new Point(-(_objs.Length - objCount), -(_objs.Length - objCount)), new Size(rand.Next(6, 10), rand.Next(6, 10)));
                     objCount -= 1;
-                    k++;
                 }
-                _objs[_objs.Length - objCount] = new Planet(new Point(rand.Next(200, 700), rand.Next(1, 30) * rand.Next(15, 30)), new Point(-k, -k), new Size(30, 30));
+                _objs[_objs.Length - objCount] = new Planet(new Point(rand.Next(200, 700), rand.Next(1, 30) * rand.Next(15, 30)), new Point(-(_objs.Length - objCount), -(_objs.Length - objCount)), new Size(30, 30));
                 objCount -= 1;
-                k++;
-                _objs[_objs.Length - objCount] = new RedPlanet(new Point(rand.Next(200, 700), rand.Next(1, 30) * rand.Next(15, 30)), new Point(-k, -k), new Size(25, 25));
+
+                _objs[_objs.Length - objCount] = new RedPlanet(new Point(rand.Next(200, 700), rand.Next(1, 30) * rand.Next(15, 30)), new Point(-(_objs.Length - objCount), -(_objs.Length - objCount)), new Size(25, 25));
                 objCount -= 1;
-                k++;
-                _objs[_objs.Length - objCount] = new GreenPlanet(new Point(rand.Next(200, 700), rand.Next(1, 30) * rand.Next(15, 30)), new Point(-k, -k), new Size(15, 15));
+
+                _objs[_objs.Length - objCount] = new GreenPlanet(new Point(rand.Next(200, 700), rand.Next(1, 30) * rand.Next(15, 30)), new Point(-(_objs.Length - objCount), -(_objs.Length - objCount)), new Size(15, 15));
                 objCount -= 1;
-                k++;
             }
 
 
