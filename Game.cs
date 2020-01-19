@@ -34,7 +34,7 @@ namespace HomeWork_2_1
 
             Load();
 
-            Timer timer = new Timer { Interval = 50 };
+            Timer timer = new Timer { Interval = 100 };
             timer.Start();
             timer.Tick += Timer_Tick;
         }
@@ -76,7 +76,7 @@ namespace HomeWork_2_1
                     objCount -= 1;
                     k++;
                 }
-                _objs[_objs.Length - objCount] = new Planet(new Point(rand.Next(200, 700), rand.Next(1, 30) * rand.Next(15, 30)), new Point(-k, -k), new Size(40, 20));
+                _objs[_objs.Length - objCount] = new Planet(new Point(rand.Next(200, 700), rand.Next(1, 30) * rand.Next(15, 30)), new Point(-k, -k), new Size(30, 30));
                 objCount -= 1;
                 k++;
                 _objs[_objs.Length - objCount] = new RedPlanet(new Point(rand.Next(200, 700), rand.Next(1, 30) * rand.Next(15, 30)), new Point(-k, -k), new Size(25, 25));

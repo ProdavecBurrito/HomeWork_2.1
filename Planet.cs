@@ -5,7 +5,7 @@ namespace HomeWork_2_1
 {
     class Planet : BaseObject
     {
-        Image image = Image.FromFile(@"C:\Users\shipo\source\repos\HomeWork_2.1\HomeWork_2.1\147577722413943995.jpg");
+        Image image = Image.FromFile(@"C:\Users\shipo\source\repos\HomeWork_2.1\HomeWork_2.1\Red_Planet.jpg");
         public Planet(Point pos, Point dir, Size size) : base(pos, dir, size)
         {
 
