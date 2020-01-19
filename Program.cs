@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
-namespace MyGame
+namespace HomeWork_2_1
 {
     class Program
     {
