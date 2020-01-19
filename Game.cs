@@ -8,6 +8,7 @@ namespace HomeWork_2_1
         private static BufferedGraphicsContext _context;
         public static BufferedGraphics Buffer;
 
+        static Random rand = new Random();
         public static BaseObject[] _objs;
         // Свойства
         // Ширина и высота игрового поля
@@ -64,17 +65,34 @@ namespace HomeWork_2_1
 
         public static void Load()
         {
-            //_objs = new BaseObject[30];
-            //for (int i = 0; i < _objs.Length; i++)
-            //{
-            //    _objs[i] = new Star(new Point(600, i * 15), new Point(-i, 0), new Size(20, 20));
-            //}
+            _objs = new BaseObject[60];
+            int objCount = _objs.Length;
+            int k = 0;
+            for (int j = 0; j < _objs.Length / 10; j++)
+            {
+                for (int i = 0; i < 7; i++)
+                {
+                    _objs[_objs.Length - objCount] = new Star(new Point(rand.Next(100, 700), rand.Next(1,30) * rand.Next(15, 30)), new Point(-k, -k), new Size(rand.Next(5, 10), rand.Next(5, 10)));
+                    objCount -= 1;
+                    k++;
+                }
+                _objs[_objs.Length - objCount] = new Planet(new Point(rand.Next(200, 700), rand.Next(1, 30) * rand.Next(15, 30)), new Point(-k, -k), new Size(40, 20));
+                objCount -= 1;
+                k++;
+                _objs[_objs.Length - objCount] = new RedPlanet(new Point(rand.Next(200, 700), rand.Next(1, 30) * rand.Next(15, 30)), new Point(-k, -k), new Size(25, 25));
+                objCount -= 1;
+                k++;
+                _objs[_objs.Length - objCount] = new GreenPlanet(new Point(rand.Next(200, 700), rand.Next(1, 30) * rand.Next(15, 30)), new Point(-k, -k), new Size(15, 15));
+                objCount -= 1;
+                k++;
+            }
 
-                _objs = new BaseObject[30];
-                for (int i = 0; i < _objs.Length / 2; i++)
-                    _objs[i] = new BaseObject(new Point(600, i * 20), new Point(-i, -i), new Size(10, 10));
-                for (int i = _objs.Length / 2; i < _objs.Length; i++)
-                    _objs[i] = new Star(new Point(600, i * 20), new Point(-i, 0), new Size(5, 5));
+
+            //    _objs = new BaseObject[30];
+            //for (int i = 0; i < _objs.Length / 2; i++)
+            //    _objs[i] = new BaseObject(new Point(rand.Next(200, 700), i * 20), new Point(-i, -i), new Size(10, 10));
+            //for (int i = _objs.Length; i < _objs.Length; i++)
+            //    _objs[i] = new Star(new Point(rand.Next(200, 700), i * rand.Next(15, 30)), new Point(-i, 0), new Size(rand.Next(5, 10), rand.Next(5, 10)));
         }
 
         private static void Timer_Tick(object sender, EventArgs e)
