@@ -10,6 +10,7 @@ namespace HomeWork_2_1
 
         static Random rand = new Random();
         public static BaseObject[] _objs;
+        static Image Image;
         // Свойства
         // Ширина и высота игрового поля
         public static int Width { get; set; }
@@ -74,13 +75,11 @@ namespace HomeWork_2_1
                     _objs[_objs.Length - objCount] = new Star(new Point(rand.Next(100, 700), rand.Next(1,30) * rand.Next(15, 30)), new Point(-(_objs.Length - objCount), -(_objs.Length - objCount)), new Size(rand.Next(6, 10), rand.Next(6, 10)));
                     objCount -= 1;
                 }
-                _objs[_objs.Length - objCount] = new Planet(new Point(rand.Next(200, 700), rand.Next(1, 30) * rand.Next(15, 30)), new Point(-(_objs.Length - objCount), -(_objs.Length - objCount)), new Size(30, 30));
+                _objs[_objs.Length - objCount] = new Planet(Pens.Red,Image = Image.FromFile(@"C:\Users\shipo\source\repos\HomeWork_2.1\HomeWork_2.1\Red_Planet.jpg"), new Point(rand.Next(200, 700), rand.Next(1, 30) * rand.Next(15, 30)), new Point(-(_objs.Length - objCount), -(_objs.Length - objCount)), new Size(30, 30));
                 objCount -= 1;
-
-                _objs[_objs.Length - objCount] = new RedPlanet(new Point(rand.Next(200, 700), rand.Next(1, 30) * rand.Next(15, 30)), new Point(-(_objs.Length - objCount), -(_objs.Length - objCount)), new Size(25, 25));
+                _objs[_objs.Length - objCount] = new Planet(Pens.Red, Image = Image.FromFile(@"C:\Users\shipo\source\repos\HomeWork_2.1\HomeWork_2.1\Gas_Giant.jpg"), new Point(rand.Next(200, 700), rand.Next(1, 30) * rand.Next(15, 30)), new Point(-(_objs.Length - objCount), -(_objs.Length - objCount)), new Size(70, 70));
                 objCount -= 1;
-
-                _objs[_objs.Length - objCount] = new GreenPlanet(new Point(rand.Next(200, 700), rand.Next(1, 30) * rand.Next(15, 30)), new Point(-(_objs.Length - objCount), -(_objs.Length - objCount)), new Size(15, 15));
+                _objs[_objs.Length - objCount] = new Planet(Pens.Red, Image = Image.FromFile(@"C:\Users\shipo\source\repos\HomeWork_2.1\HomeWork_2.1\Earth.jpg"), new Point(rand.Next(200, 700), rand.Next(1, 30) * rand.Next(15, 30)), new Point(-(_objs.Length - objCount), -(_objs.Length - objCount)), new Size(40, 20));
                 objCount -= 1;
             }
 
