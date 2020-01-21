@@ -115,24 +115,6 @@ namespace SpaceGame_Shipov
                 r = rnd.Next(5, 50);
                 _planets[i + 2] = new Planet(Image = Image.FromFile(@"C:\Users\shipo\source\repos\SpaceGame_Shipov\Images\Earth.jpg"), new Point(1000, rnd.Next(0, Game.Height)), new Point(-r / 2, r), new Size(30, 15));
             }
-
-
-            //_objs = new BaseObject[60];
-            //int objCount = _objs.Length;
-            //for (int j = 0; j < _objs.Length / 10; j++)
-            //{
-            //    for (int i = 0; i < 7; i++)
-            //    {
-            //        _objs[_objs.Length - objCount] = new Star(new Point(rand.Next(100, 700), rand.Next(1, 30) * rand.Next(15, 30)), new Point(-(_objs.Length - objCount), -(_objs.Length - objCount)), new Size(rand.Next(6, 10), rand.Next(6, 10)));
-            //        objCount -= 1;
-            //    }
-            //    _objs[_objs.Length - objCount] = new Planet(Image = Image.FromFile(@"C:\Users\shipo\source\repos\SpaceGame_Shipov\Images\Red_Planet.jpg"), new Point(rand.Next(Game.Height, Game.Width), rand.Next(1, 30) * rand.Next(15, 30)), new Point(-(_objs.Length - objCount), -(_objs.Length - objCount)), new Size(30, 30));
-            //    objCount -= 1;
-            //    _objs[_objs.Length - objCount] = new Planet(Image = Image.FromFile(@"C:\Users\shipo\source\repos\SpaceGame_Shipov\Images\Gas_Giant.jpg"), new Point(rand.Next(Game.Height, Game.Width), rand.Next(1, 30) * rand.Next(15, 30)), new Point(-(_objs.Length - objCount), -(_objs.Length - objCount)), new Size(70, 70));
-            //    objCount -= 1;
-            //    _objs[_objs.Length - objCount] = new Planet(Image = Image.FromFile(@"C:\Users\shipo\source\repos\SpaceGame_Shipov\Images\Earth.jpg"), new Point(rand.Next(Game.Height, Game.Width), rand.Next(1, 30) * rand.Next(15, 30)), new Point(-(_objs.Length - objCount), -(_objs.Length - objCount)), new Size(40, 20));
-            //    objCount -= 1;
-            //}
         }
 
         private static void Timer_Tick(object sender, EventArgs e)

@@ -16,14 +16,7 @@ namespace SpaceGame_Shipov
         }
         public abstract void Draw();
 
-        public virtual void Update()
-        {
-            Pos.X = Pos.X + Dir.X;
-            if (Pos.X < 0)
-            {
-                Pos.X = Game.Width + Size.Width;
-            }
-        }
+        public abstract void Update();
 
         // Так как переданный объект тоже должен будет реализовывать интерфейс ICollision, мы 
         // можем использовать его свойство Rect и метод IntersectsWith для обнаружения пересечения с
