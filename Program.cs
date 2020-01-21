@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Windows.Forms;
-namespace HomeWork_2_1
+namespace SpaceGame_Shipov
 {
+    // Шипов
     class Program
     {
         static void Main(string[] args)

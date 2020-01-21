@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
 
-namespace HomeWork_2_1
+namespace SpaceGame_Shipov
 {
     class Star : BaseObject
     {
