@@ -10,6 +10,7 @@ namespace HomeWork_2_1
 
         static Random rand = new Random();
         public static BaseObject[] _objs;
+        static Image Image;
         // Свойства
         // Ширина и высота игрового поля
         public static int Width { get; set; }
@@ -34,7 +35,7 @@ namespace HomeWork_2_1
 
             Load();
 
-            Timer timer = new Timer { Interval = 50 };
+            Timer timer = new Timer { Interval = 100 };
             timer.Start();
             timer.Tick += Timer_Tick;
         }
@@ -67,24 +68,19 @@ namespace HomeWork_2_1
         {
             _objs = new BaseObject[60];
             int objCount = _objs.Length;
-            int k = 0;
             for (int j = 0; j < _objs.Length / 10; j++)
             {
                 for (int i = 0; i < 7; i++)
                 {
-                    _objs[_objs.Length - objCount] = new Star(new Point(rand.Next(100, 700), rand.Next(1,30) * rand.Next(15, 30)), new Point(-k, -k), new Size(rand.Next(5, 10), rand.Next(5, 10)));
+                    _objs[_objs.Length - objCount] = new Star(new Point(rand.Next(100, 700), rand.Next(1,30) * rand.Next(15, 30)), new Point(-(_objs.Length - objCount), -(_objs.Length - objCount)), new Size(rand.Next(6, 10), rand.Next(6, 10)));
                     objCount -= 1;
-                    k++;
                 }
-                _objs[_objs.Length - objCount] = new Planet(new Point(rand.Next(200, 700), rand.Next(1, 30) * rand.Next(15, 30)), new Point(-k, -k), new Size(40, 20));
+                _objs[_objs.Length - objCount] = new Planet(Pens.Green,Image = Image.FromFile(@"C:\Users\shipo\source\repos\HomeWork_2.1\HomeWork_2.1\Red_Planet.jpg"), new Point(rand.Next(200, 700), rand.Next(1, 30) * rand.Next(15, 30)), new Point(-(_objs.Length - objCount), -(_objs.Length - objCount)), new Size(30, 30));
                 objCount -= 1;
-                k++;
-                _objs[_objs.Length - objCount] = new RedPlanet(new Point(rand.Next(200, 700), rand.Next(1, 30) * rand.Next(15, 30)), new Point(-k, -k), new Size(25, 25));
+                _objs[_objs.Length - objCount] = new Planet(Pens.Red, Image = Image.FromFile(@"C:\Users\shipo\source\repos\HomeWork_2.1\HomeWork_2.1\Gas_Giant.jpg"), new Point(rand.Next(200, 700), rand.Next(1, 30) * rand.Next(15, 30)), new Point(-(_objs.Length - objCount), -(_objs.Length - objCount)), new Size(70, 70));
                 objCount -= 1;
-                k++;
-                _objs[_objs.Length - objCount] = new GreenPlanet(new Point(rand.Next(200, 700), rand.Next(1, 30) * rand.Next(15, 30)), new Point(-k, -k), new Size(15, 15));
+                _objs[_objs.Length - objCount] = new Planet(Pens.MediumBlue, Image = Image.FromFile(@"C:\Users\shipo\source\repos\HomeWork_2.1\HomeWork_2.1\Earth.jpg"), new Point(rand.Next(200, 700), rand.Next(1, 30) * rand.Next(15, 30)), new Point(-(_objs.Length - objCount), -(_objs.Length - objCount)), new Size(40, 20));
                 objCount -= 1;
-                k++;
             }
 
 

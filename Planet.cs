@@ -5,10 +5,12 @@ namespace HomeWork_2_1
 {
     class Planet : BaseObject
     {
-        Image image = Image.FromFile(@"C:\Users\shipo\source\repos\HomeWork_2.1\HomeWork_2.1\147577722413943995.jpg");
-        public Planet(Point pos, Point dir, Size size) : base(pos, dir, size)
+        Image image;
+        Pen color;
+        public Planet(Pen _color, Image _image, Point pos, Point dir, Size size) : base(pos, dir, size)
         {
-
+            color = _color;
+            image = _image;
         }
         public override void Update()
         {
@@ -21,7 +23,7 @@ namespace HomeWork_2_1
 
         public override void Draw()
         {
-            Game.Buffer.Graphics.DrawEllipse(Pens.Green, Pos.X, Pos.Y, Size.Width, Size.Height);
+            Game.Buffer.Graphics.DrawEllipse(color, Pos.X, Pos.Y, Size.Width, Size.Height);
             Game.Buffer.Graphics.DrawImage(image, Pos.X, Pos.Y, Size.Width, Size.Height);
         }
     }
