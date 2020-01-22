@@ -74,9 +74,15 @@ namespace SpaceGame_Shipov
                 obj.Update();
             }
 
-            foreach (Asteroid obj in _asteroids)
+            foreach (Asteroid ast in _asteroids)
             {
-                obj.Update();
+                ast.Update();
+                if (ast.Collision(_bullet))
+                { 
+                    System.Media.SystemSounds.Hand.Play();
+                    ast.Destroy();
+                    _bullet.Destroy();
+                }
             }
 
             foreach (Planet obj in _planets)
@@ -91,7 +97,7 @@ namespace SpaceGame_Shipov
         {
             _objs = new BaseObject[30];
             _planets = new Planet[6];
-            _asteroids = new Asteroid[3];
+            _asteroids = new Asteroid[20];
             _bullet = new Bullet(new Point(0, 200), new Point(5, 0), new Size(10, 10));
 
             var rnd = new Random();

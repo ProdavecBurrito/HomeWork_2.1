@@ -7,13 +7,14 @@ using System.Drawing;
 
 namespace SpaceGame_Shipov
 {
-    class Asteroid : BaseObject, ICloneable
+    class Asteroid : BaseObject, ICloneable, IDestroy
     {
         public int Power { get; set; }
         public Asteroid(Point pos, Point dir, Size size) : base(pos, dir, size)
         {
             Power = 1;
         }
+
         public override void Draw()
         {
             Game.Buffer.Graphics.FillEllipse(Brushes.White, Pos.X, Pos.Y, Size.Width, Size.Height);
@@ -33,6 +34,11 @@ namespace SpaceGame_Shipov
             {
                 Pos.X = Game.Width + Size.Width;
             }
+        }
+
+        public void Destroy()
+        {
+            Pos.X = Game.Width;
         }
     }
 }

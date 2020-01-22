@@ -2,7 +2,6 @@
 using System.Windows.Forms;
 namespace SpaceGame_Shipov
 {
-    // Шипов
     class Program
     {
         static void Main(string[] args)

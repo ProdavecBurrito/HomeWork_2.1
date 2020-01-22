@@ -50,6 +50,7 @@
     <Compile Include="Bullet.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="ICollision.cs" />
+    <Compile Include="IDestroy.cs" />
     <Compile Include="Planet.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
