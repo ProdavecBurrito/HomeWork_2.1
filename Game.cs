@@ -33,6 +33,14 @@ namespace SpaceGame_Shipov
             // Запоминаем размеры формы
             Width = form.ClientSize.Width;
             Height = form.ClientSize.Height;
+            if (form.ClientSize.Width > 1000 || form.ClientSize.Width < 0)
+            {
+                throw new ArgumentOutOfRangeException("Width", "Введенны неверные данные");
+            }
+            else if (form.ClientSize.Height >= 1001 || form.ClientSize.Height <= 0)
+            {
+                throw new ArgumentOutOfRangeException("Heigth", "Введенны неверные данные");
+            }
             // Связываем буфер в памяти с графическим объектом, чтобы рисовать в буфере
             Buffer = _context.Allocate(g, new Rectangle(0, 0, Width, Height));
 
@@ -82,6 +90,7 @@ namespace SpaceGame_Shipov
                     System.Media.SystemSounds.Hand.Play();
                     ast.Destroy();
                     _bullet.Destroy();
+                    
                 }
             }
 
@@ -102,6 +111,15 @@ namespace SpaceGame_Shipov
 
             var rnd = new Random();
 
+            for (int i = 0; i < _planets.Length; i += 3)
+            {
+                int r = rnd.Next(5, 50);
+                _planets[i] = new Planet(Image = Image.FromFile(@"../../Images/Red_Planet.jpg"), new Point(1000, rnd.Next(0, Game.Height)), new Point(-r / 2, r), new Size(30, 30));
+                r = rnd.Next(5, 50);
+                _planets[i + 1] = new Planet(Image = Image.FromFile(@"../../Images/Gas_Giant.jpg"), new Point(1000, rnd.Next(0, Game.Height)), new Point(-r / 2, r), new Size(60, 60));
+                r = rnd.Next(5, 50);
+                _planets[i + 2] = new Planet(Image = Image.FromFile(@"../../Images/Earth.jpg"), new Point(1000, rnd.Next(0, Game.Height)), new Point(-r / 2, r), new Size(45, 25));
+            }
             for (var i = 0; i < _objs.Length; i++)
             {
                 int r = rnd.Next(5, 50);
@@ -111,15 +129,6 @@ namespace SpaceGame_Shipov
             {
                 int r = rnd.Next(5, 50);
                 _asteroids[i] = new Asteroid(new Point(1000, rnd.Next(0, Game.Height)), new Point(-r / 5, r), new Size(r, r));
-            }
-            for (int i = 0; i < _planets.Length; i +=3)
-            {
-                int r = rnd.Next(5, 50);
-                _planets[i] = new Planet(Image = Image.FromFile(@"C:\Users\shipo\source\repos\SpaceGame_Shipov\Images\Red_Planet.jpg"), new Point(1000, rnd.Next(0, Game.Height)), new Point(-r / 2, r), new Size(20, 20));
-                r = rnd.Next(5, 50);
-                _planets[i + 1] = new Planet(Image = Image.FromFile(@"C:\Users\shipo\source\repos\SpaceGame_Shipov\Images\Gas_Giant.jpg"), new Point(1000, rnd.Next(0, Game.Height)), new Point(-r / 2, r), new Size(60, 60));
-                r = rnd.Next(5, 50);
-                _planets[i + 2] = new Planet(Image = Image.FromFile(@"C:\Users\shipo\source\repos\SpaceGame_Shipov\Images\Earth.jpg"), new Point(1000, rnd.Next(0, Game.Height)), new Point(-r / 2, r), new Size(30, 15));
             }
         }
 
