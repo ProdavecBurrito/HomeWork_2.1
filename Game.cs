@@ -110,7 +110,16 @@ namespace SpaceGame_Shipov
             _objs = new BaseObject[30];
             _planets = new Planet[6];
             _asteroids = new Asteroid[20];
-            _bullet = new Bullet(new Point(0, 200), new Point(5, 0), new Size(10, 10));
+
+            //Инициализация пули
+            try
+            {
+                _bullet = new Bullet(new Point(0, 200), new Point(5, 0), new Size(10, 10));
+            }
+            catch (GameObjectException mes)
+            {
+                Console.WriteLine("Ошибка: ", mes.Message);
+            }
 
             var rnd = new Random();
 
