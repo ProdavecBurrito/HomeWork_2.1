@@ -19,6 +19,10 @@ namespace SpaceGame_Shipov
         public override void Update()
         {
             Pos.X = Pos.X + Dir.X;
+            if (Dir.X < -30)
+            {
+                throw new GameObjectException("Превышенна максимальная скорость");
+            }
             if (Pos.X < 0)
             {
                 Pos.X = Game.Width + Size.Width;

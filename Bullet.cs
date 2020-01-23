@@ -16,6 +16,10 @@ namespace SpaceGame_Shipov
         public override void Draw()
         {
             Game.Buffer.Graphics.DrawRectangle(Pens.OrangeRed, Pos.X, Pos.Y, Size.Width, Size.Height);
+            if (Size.Width > 10 || Size.Height > 10)
+            {
+                throw new GameObjectException("Недопустимый размер");
+            }
         }
 
         public override void Update()

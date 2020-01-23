@@ -18,6 +18,10 @@ namespace SpaceGame_Shipov
         public override void Draw()
         {
             Game.Buffer.Graphics.FillEllipse(Brushes.White, Pos.X, Pos.Y, Size.Width, Size.Height);
+            if (Size.Width > 50 || Size.Height > 50)
+            {
+                throw new GameObjectException("Недопустимый размер");
+            }
         }
 
         public object Clone()
