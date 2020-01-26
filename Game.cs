@@ -8,10 +8,16 @@ namespace SpaceGame_Shipov
         private static BufferedGraphicsContext _context;
         public static BufferedGraphics Buffer;
 
+        private static Timer _timer;
+        public static Random Rnd = new Random();
+
+
         public static BaseObject[] _objs;
         private static Bullet _bullet;
         private static Asteroid[] _asteroids;
         private static Planet[] _planets;
+        private static Ship _ship;
+
 
         static Image Image;
         // Свойства
@@ -48,9 +54,13 @@ namespace SpaceGame_Shipov
 
             Load();
 
-            Timer timer = new Timer { Interval = 100 };
-            timer.Start();
-            timer.Tick += Timer_Tick;
+            _timer = new Timer { Interval = 100 };
+            _timer.Start();
+            _timer.Tick += Timer_Tick;
+
+            form.KeyDown += Form_KeyDown;
+
+            Ship.MessageDie += Finish;
         }
 
         public static void Draw()
@@ -74,6 +84,13 @@ namespace SpaceGame_Shipov
 
             _bullet.Draw();
 
+            _ship?.Draw();
+            if (_ship != null)
+            {
+                Buffer.Graphics.DrawString("Energy:" + _ship.Energy, SystemFonts.DefaultFont, Brushes.White, 0, 0);
+            }
+
+
             Buffer.Render();
         }
 
@@ -85,16 +102,23 @@ namespace SpaceGame_Shipov
                 obj.Update();
             }
 
-            foreach (Asteroid ast in _asteroids)
+            for (var i = 0; i < _asteroids.Length; i++)
             {
-                ast.Update();
-                if (ast.Collision(_bullet))
+                _bullet.Update();
+                if (_asteroids[i] == null) continue;
+                _asteroids[i].Update();
+                if (_bullet != null && _bullet.Collision(_asteroids[i]))
                 {
                     System.Media.SystemSounds.Hand.Play();
-                    ast.Destroy();
-                    _bullet.Destroy();
-
+                    _asteroids[i] = null;
+                    _bullet = null;
+                    continue;
                 }
+                if (!_ship.Collision(_asteroids[i])) continue;
+                var rnd = new Random();
+                _ship?.EnergyLow(rnd.Next(1, 10));
+                System.Media.SystemSounds.Asterisk.Play();
+                if (_ship.Energy <= 0) _ship?.Die();
             }
 
             foreach (Planet obj in _planets)
@@ -102,7 +126,6 @@ namespace SpaceGame_Shipov
                 obj.Update();
             }
 
-            _bullet.Update();
         }
 
         public static void Load()
@@ -111,10 +134,13 @@ namespace SpaceGame_Shipov
             _planets = new Planet[6];
             _asteroids = new Asteroid[20];
 
-            //Инициализация пули
+            // Инициализация корабля
+            _ship = new Ship(new Point(10, 400), new Point(5, 5), new Size(10, 10));
+
+            // Инициализация пули
             try
             {
-                _bullet = new Bullet(new Point(0, 200), new Point(5, 0), new Size(10, 10));
+                _bullet = new Bullet(new Point(0, 200), new Point(5, 0), new Size(6, 2));
             }
             catch (GameObjectException mes)
             {
@@ -169,6 +195,20 @@ namespace SpaceGame_Shipov
             Draw();
             Update();
         }
-        
+
+        private static void Form_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.ControlKey) _bullet = new Bullet(new Point(_ship.Rect.X + 10, _ship.Rect.Y + 4), new Point(4, 0), new Size(6, 2));
+            if (e.KeyCode == Keys.Up) _ship.Up();
+            if (e.KeyCode == Keys.Down) _ship.Down();
+        }
+
+        public static void Finish()
+        {
+            _timer.Stop();
+            Buffer.Graphics.DrawString("The End", new Font(FontFamily.GenericSansSerif, 60, FontStyle.Underline), Brushes.White, 200, 100);
+            Buffer.Render();
+
+        }
     }
 }
