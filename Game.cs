@@ -11,7 +11,7 @@ namespace SpaceGame_Shipov
         private static Timer _timer;
         public static Random Rnd = new Random();
 
-
+        static Score _score = new Score();
         public static BaseObject[] _objs;
         private static Bullet _bullet;
         private static Asteroid[] _asteroids;
@@ -85,6 +85,7 @@ namespace SpaceGame_Shipov
             if (_ship != null)
             {
                 Buffer.Graphics.DrawString("Energy:" + _ship.Energy, SystemFonts.DefaultFont, Brushes.White, 0, 0);
+                Buffer.Graphics.DrawString("Score:" + _score.GetScore, SystemFonts.DefaultFont, Brushes.Blue, 0, 20);
             }
 
             foreach (Planet obj in _planets)
@@ -125,6 +126,7 @@ namespace SpaceGame_Shipov
                     _healings[i] = null;
                     var rnd = new Random();
                     _ship.EnegryUp(rnd.Next(15, 25));
+                    _score.AddScore(25);
                     continue;
                 }
             }
@@ -143,6 +145,7 @@ namespace SpaceGame_Shipov
                     System.Media.SystemSounds.Hand.Play();
                     _asteroids[i] = null;
                     _bullet = null;
+                    _score.AddScore(100);
                     continue;
                 }
 
@@ -154,6 +157,7 @@ namespace SpaceGame_Shipov
                 var rnd = new Random();
                 _ship?.EnergyLow(rnd.Next(15, 25));
                 _asteroids[i] = null;
+                _score.AddScore(-30);
                 System.Media.SystemSounds.Asterisk.Play();
 
                 if (_ship.Energy <= 0)
@@ -240,12 +244,23 @@ namespace SpaceGame_Shipov
             if (e.KeyCode == Keys.ControlKey) _bullet = new Bullet(new Point(_ship.Rect.X + 40, _ship.Rect.Y + 20), new Point(4, 0), new Size(6, 2));
             if (e.KeyCode == Keys.Up) _ship.Up();
             if (e.KeyCode == Keys.Down) _ship.Down();
+            // Что бы убить себя
+            if (e.KeyCode == Keys.Delete) _ship?.Die();
+            if (e.KeyCode == Keys.N)
+            {
+                _ship?.EnergyLow(25);
+                if (_ship.Energy <= 0)
+                {
+                    _ship?.Die();
+                }
+            }
         }
 
         public static void Finish()
         {
             _timer.Stop();
             Buffer.Graphics.DrawString("The End", new Font(FontFamily.GenericSansSerif, 60, FontStyle.Underline), Brushes.White, 200, 100);
+            Buffer.Graphics.DrawString($"Score: {_score.GetScore}", new Font(FontFamily.GenericSansSerif, 30, FontStyle.Underline), Brushes.Blue, 275, 200);
             Buffer.Render();
 
         }
