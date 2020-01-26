@@ -1,15 +1,18 @@
 ﻿using System;
 using System.Windows.Forms;
 using System.Drawing;
-namespace HomeWork_2_1
+namespace SpaceGame_Shipov
 {
     static class Game
     {
         private static BufferedGraphicsContext _context;
         public static BufferedGraphics Buffer;
 
-        static Random rand = new Random();
         public static BaseObject[] _objs;
+        private static Bullet _bullet;
+        private static Asteroid[] _asteroids;
+        private static Planet[] _planets;
+
         static Image Image;
         // Свойства
         // Ширина и высота игрового поля
@@ -30,6 +33,16 @@ namespace HomeWork_2_1
             // Запоминаем размеры формы
             Width = form.ClientSize.Width;
             Height = form.ClientSize.Height;
+
+            // Исключение превышения размеров
+            if (form.ClientSize.Width > 1000 || form.ClientSize.Width < 0)
+            {
+                throw new ArgumentOutOfRangeException("Width", "Введенны неверные данные");
+            }
+            else if (form.ClientSize.Height >= 1001 || form.ClientSize.Height <= 0)
+            {
+                throw new ArgumentOutOfRangeException("Heigth", "Введенны неверные данные");
+            }
             // Связываем буфер в памяти с графическим объектом, чтобы рисовать в буфере
             Buffer = _context.Allocate(g, new Rectangle(0, 0, Width, Height));
 
@@ -42,19 +55,28 @@ namespace HomeWork_2_1
 
         public static void Draw()
         {
-            // Проверяем вывод графики
-            //Buffer.Graphics.Clear(Color.Black);
-            //Buffer.Graphics.DrawRectangle(Pens.White, new Rectangle(100, 100, 200, 200));
-            //Buffer.Graphics.FillEllipse(Brushes.Wheat, new Rectangle(100, 100, 200, 200));
-            //Buffer.Render();
-
             Buffer.Graphics.Clear(Color.Black);
+
             foreach (BaseObject obj in _objs)
             {
                 obj.Draw();
             }
+
+            foreach (Asteroid obj in _asteroids)
+            {
+                obj.Draw();
+            }
+
+            foreach (Planet obj in _planets)
+            {
+                obj.Draw();
+            }
+
+            _bullet.Draw();
+
             Buffer.Render();
         }
+
 
         public static void Update()
         {
@@ -62,39 +84,91 @@ namespace HomeWork_2_1
             {
                 obj.Update();
             }
+
+            foreach (Asteroid ast in _asteroids)
+            {
+                ast.Update();
+                if (ast.Collision(_bullet))
+                {
+                    System.Media.SystemSounds.Hand.Play();
+                    ast.Destroy();
+                    _bullet.Destroy();
+
+                }
+            }
+
+            foreach (Planet obj in _planets)
+            {
+                obj.Update();
+            }
+
+            _bullet.Update();
         }
 
         public static void Load()
         {
-            _objs = new BaseObject[60];
-            int objCount = _objs.Length;
-            for (int j = 0; j < _objs.Length / 10; j++)
+            _objs = new BaseObject[30];
+            _planets = new Planet[6];
+            _asteroids = new Asteroid[20];
+
+            //Инициализация пули
+            try
             {
-                for (int i = 0; i < 7; i++)
-                {
-                    _objs[_objs.Length - objCount] = new Star(new Point(rand.Next(100, 700), rand.Next(1,30) * rand.Next(15, 30)), new Point(-(_objs.Length - objCount), -(_objs.Length - objCount)), new Size(rand.Next(6, 10), rand.Next(6, 10)));
-                    objCount -= 1;
-                }
-                _objs[_objs.Length - objCount] = new Planet(Pens.Green,Image = Image.FromFile(@"C:\Users\shipo\source\repos\HomeWork_2.1\HomeWork_2.1\Red_Planet.jpg"), new Point(rand.Next(200, 700), rand.Next(1, 30) * rand.Next(15, 30)), new Point(-(_objs.Length - objCount), -(_objs.Length - objCount)), new Size(30, 30));
-                objCount -= 1;
-                _objs[_objs.Length - objCount] = new Planet(Pens.Red, Image = Image.FromFile(@"C:\Users\shipo\source\repos\HomeWork_2.1\HomeWork_2.1\Gas_Giant.jpg"), new Point(rand.Next(200, 700), rand.Next(1, 30) * rand.Next(15, 30)), new Point(-(_objs.Length - objCount), -(_objs.Length - objCount)), new Size(70, 70));
-                objCount -= 1;
-                _objs[_objs.Length - objCount] = new Planet(Pens.MediumBlue, Image = Image.FromFile(@"C:\Users\shipo\source\repos\HomeWork_2.1\HomeWork_2.1\Earth.jpg"), new Point(rand.Next(200, 700), rand.Next(1, 30) * rand.Next(15, 30)), new Point(-(_objs.Length - objCount), -(_objs.Length - objCount)), new Size(40, 20));
-                objCount -= 1;
+                _bullet = new Bullet(new Point(0, 200), new Point(5, 0), new Size(10, 10));
+            }
+            catch (GameObjectException mes)
+            {
+                Console.WriteLine("Ошибка: ", mes.Message);
             }
 
+            var rnd = new Random();
 
-            //    _objs = new BaseObject[30];
-            //for (int i = 0; i < _objs.Length / 2; i++)
-            //    _objs[i] = new BaseObject(new Point(rand.Next(200, 700), i * 20), new Point(-i, -i), new Size(10, 10));
-            //for (int i = _objs.Length; i < _objs.Length; i++)
-            //    _objs[i] = new Star(new Point(rand.Next(200, 700), i * rand.Next(15, 30)), new Point(-i, 0), new Size(rand.Next(5, 10), rand.Next(5, 10)));
+            // Инициализация планет
+            try
+            {
+                for (int i = 0; i < _planets.Length; i += 3)
+                {
+                    int r = rnd.Next(5, 50);
+                    _planets[i] = new Planet(Image = Image.FromFile(@"../../Images/Red_Planet.jpg"), new Point(1000, rnd.Next(0, Game.Height)), new Point(-r / 2, r), new Size(30, 30));
+                    r = rnd.Next(5, 50);
+                    _planets[i + 1] = new Planet(Image = Image.FromFile(@"../../Images/Gas_Giant.jpg"), new Point(1000, rnd.Next(0, Game.Height)), new Point(-r / 2, r), new Size(60, 60));
+                    r = rnd.Next(5, 50);
+                    _planets[i + 2] = new Planet(Image = Image.FromFile(@"../../Images/Earth.jpg"), new Point(1000, rnd.Next(0, Game.Height)), new Point(-r / 2, r), new Size(45, 25));
+                }
+            }
+            catch (GameObjectException mes)
+            {
+                Console.WriteLine("Ошибка: ", mes.Message);
+            }
+
+            // Инициализация звезд
+            for (var i = 0; i < _objs.Length; i++)
+            {
+                int r = rnd.Next(5, 50);
+                _objs[i] = new Star(new Point(1000, rnd.Next(0, Game.Height)), new Point(-r, r), new Size(10, 10));
+            }
+
+            // Инициализация астероидов
+            try
+            {
+                for (var i = 0; i < _asteroids.Length; i++)
+                {
+                    {
+                        int r = rnd.Next(5, 50);
+                        _asteroids[i] = new Asteroid(new Point(1000, rnd.Next(0, Game.Height)), new Point(-r / 5, r), new Size(r, r));
+                    }
+                }
+            }
+            catch (GameObjectException mes)
+            {
+                Console.WriteLine("Ошибка: ", mes.Message);
+            }
         }
-
         private static void Timer_Tick(object sender, EventArgs e)
         {
             Draw();
             Update();
         }
+        
     }
 }

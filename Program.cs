@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Windows.Forms;
-namespace HomeWork_2_1
+namespace SpaceGame_Shipov
 {
     class Program
     {
         static void Main(string[] args)
         {
             Form form = new Form();
-            form.Width = 800;
-            form.Height = 600;
+            form.Width = 900;
+            form.Height = 700;
             Game.Init(form);
             form.Show();
             Game.Draw();
