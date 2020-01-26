@@ -72,24 +72,24 @@ namespace SpaceGame_Shipov
                 obj.Draw();
             }
 
-            foreach (Asteroid obj in _asteroids)
+            foreach (Asteroid a in _asteroids)
             {
-                obj.Draw();
+                a?.Draw();
+            }
+
+            _bullet?.Draw();
+
+            _ship?.Draw();
+
+            if (_ship != null)
+            {
+                Buffer.Graphics.DrawString("Energy:" + _ship.Energy, SystemFonts.DefaultFont, Brushes.White, 0, 0);
             }
 
             foreach (Planet obj in _planets)
             {
                 obj.Draw();
             }
-
-            _bullet.Draw();
-
-            _ship?.Draw();
-            if (_ship != null)
-            {
-                Buffer.Graphics.DrawString("Energy:" + _ship.Energy, SystemFonts.DefaultFont, Brushes.White, 0, 0);
-            }
-
 
             Buffer.Render();
         }
@@ -102,11 +102,17 @@ namespace SpaceGame_Shipov
                 obj.Update();
             }
 
+            _bullet?.Update();
+
             for (var i = 0; i < _asteroids.Length; i++)
             {
-                _bullet.Update();
-                if (_asteroids[i] == null) continue;
+                if (_asteroids[i] == null)
+                {
+                    continue;
+                }
+
                 _asteroids[i].Update();
+
                 if (_bullet != null && _bullet.Collision(_asteroids[i]))
                 {
                     System.Media.SystemSounds.Hand.Play();
@@ -114,11 +120,20 @@ namespace SpaceGame_Shipov
                     _bullet = null;
                     continue;
                 }
-                if (!_ship.Collision(_asteroids[i])) continue;
+
+                if (!_ship.Collision(_asteroids[i]))
+                {
+                    continue;
+                }
+
                 var rnd = new Random();
                 _ship?.EnergyLow(rnd.Next(1, 10));
                 System.Media.SystemSounds.Asterisk.Play();
-                if (_ship.Energy <= 0) _ship?.Die();
+
+                if (_ship.Energy <= 0)
+                {
+                    _ship?.Die();
+                }
             }
 
             foreach (Planet obj in _planets)
@@ -155,11 +170,11 @@ namespace SpaceGame_Shipov
                 for (int i = 0; i < _planets.Length; i += 3)
                 {
                     int r = rnd.Next(5, 50);
-                    _planets[i] = new Planet(Image = Image.FromFile(@"../../Images/Red_Planet.jpg"), new Point(1000, rnd.Next(0, Game.Height)), new Point(-r / 2, r), new Size(30, 30));
+                    _planets[i] = new Planet(Image = Image.FromFile(@"../../Images/Red_Planet.png"), new Point(1000, rnd.Next(0, Game.Height)), new Point(-r / 2, r), new Size(45, 45));
                     r = rnd.Next(5, 50);
-                    _planets[i + 1] = new Planet(Image = Image.FromFile(@"../../Images/Gas_Giant.jpg"), new Point(1000, rnd.Next(0, Game.Height)), new Point(-r / 2, r), new Size(60, 60));
+                    _planets[i + 1] = new Planet(Image = Image.FromFile(@"../../Images/Gas_Giant.png"), new Point(1000, rnd.Next(0, Game.Height)), new Point(-r / 2, r), new Size(60, 60));
                     r = rnd.Next(5, 50);
-                    _planets[i + 2] = new Planet(Image = Image.FromFile(@"../../Images/Earth.jpg"), new Point(1000, rnd.Next(0, Game.Height)), new Point(-r / 2, r), new Size(45, 25));
+                    _planets[i + 2] = new Planet(Image = Image.FromFile(@"../../Images/Earth.png"), new Point(1000, rnd.Next(0, Game.Height)), new Point(-r / 2, r), new Size(45, 45));
                 }
             }
             catch (GameObjectException mes)
@@ -181,7 +196,7 @@ namespace SpaceGame_Shipov
                 {
                     {
                         int r = rnd.Next(5, 50);
-                        _asteroids[i] = new Asteroid(new Point(1000, rnd.Next(0, Game.Height)), new Point(-r / 5, r), new Size(r, r));
+                        _asteroids[i] = new Asteroid(Image, new Point(1000, rnd.Next(0, Game.Height)), new Point(-r / 5, r), new Size(r, r));
                     }
                 }
             }

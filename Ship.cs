@@ -19,7 +19,7 @@ namespace SpaceGame_Shipov
 
         public override void Draw()
         {
-            Game.Buffer.Graphics.FillEllipse(Brushes.Wheat, Pos.X, Pos.Y, Size.Width, Size.Height);
+            Game.Buffer.Graphics.FillEllipse(Brushes.Red, Pos.X, Pos.Y, Size.Width, Size.Height);
         }
 
         public override void Update()
