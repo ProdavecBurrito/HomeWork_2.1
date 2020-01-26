@@ -24,7 +24,7 @@ namespace SpaceGame_Shipov
 
         public override void Update()
         {
-            Pos.X = Pos.X + 3;
+            Pos.X = Pos.X + 15;
         }
 
         public void Destroy()

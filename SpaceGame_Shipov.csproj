@@ -50,6 +50,7 @@
     <Compile Include="Bullet.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="GameObjectException.cs" />
+    <Compile Include="HealingTool.cs" />
     <Compile Include="ICollision.cs" />
     <Compile Include="IDestroy.cs" />
     <Compile Include="Planet.cs" />

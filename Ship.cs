@@ -10,16 +10,18 @@ namespace SpaceGame_Shipov
 {
     class Ship : BaseObject
     {
+        Image image;
         private int _energy = 100;
         public int Energy => _energy;
 
-        public Ship(Point pos, Point dir, Size size) : base(pos, dir, size)
+        public Ship(Image _image, Point pos, Point dir, Size size) : base(pos, dir, size)
         {
+            image = Image.FromFile(@"../../Images/Star_ship.png");
         }
 
         public override void Draw()
         {
-            Game.Buffer.Graphics.FillEllipse(Brushes.Red, Pos.X, Pos.Y, Size.Width, Size.Height);
+            Game.Buffer.Graphics.DrawImage(this.image, Pos.X, Pos.Y, Size.Width, Size.Height);
         }
 
         public override void Update()
@@ -53,6 +55,19 @@ namespace SpaceGame_Shipov
         public void EnergyLow(int n)
         {
             _energy -= n;
+        }
+
+        /// <summary>
+        /// Повышение энергии
+        /// </summary>
+        /// <param name="n"></param>
+        public void EnegryUp(int n)
+        {
+            _energy += n;
+            if (_energy > 100)
+            {
+                _energy = 100;
+            }
         }
 
         public static event Message MessageDie;

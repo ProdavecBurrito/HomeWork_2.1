@@ -17,6 +17,7 @@ namespace SpaceGame_Shipov
         private static Asteroid[] _asteroids;
         private static Planet[] _planets;
         private static Ship _ship;
+        static HealingTool[] _healings;
 
 
         static Image Image;
@@ -91,6 +92,11 @@ namespace SpaceGame_Shipov
                 obj.Draw();
             }
 
+            foreach(HealingTool ht in _healings)
+            {
+                ht?.Draw();
+            }
+
             Buffer.Render();
         }
 
@@ -103,6 +109,25 @@ namespace SpaceGame_Shipov
             }
 
             _bullet?.Update();
+
+            for (int i = 0; i < _healings.Length; i++)
+            {
+                if (_healings[i] == null)
+                {
+                    continue;
+                }
+
+                _healings[i].Update();
+
+                if (_healings[i] != null && _ship.Collision(_healings[i]) && _ship?.Energy < 100)
+                {
+                    System.Media.SystemSounds.Hand.Play();
+                    _healings[i] = null;
+                    var rnd = new Random();
+                    _ship.EnegryUp(rnd.Next(15, 25));
+                    continue;
+                }
+            }
 
             for (var i = 0; i < _asteroids.Length; i++)
             {
@@ -127,7 +152,8 @@ namespace SpaceGame_Shipov
                 }
 
                 var rnd = new Random();
-                _ship?.EnergyLow(rnd.Next(1, 10));
+                _ship?.EnergyLow(rnd.Next(15, 25));
+                _asteroids[i] = null;
                 System.Media.SystemSounds.Asterisk.Play();
 
                 if (_ship.Energy <= 0)
@@ -148,21 +174,19 @@ namespace SpaceGame_Shipov
             _objs = new BaseObject[30];
             _planets = new Planet[6];
             _asteroids = new Asteroid[20];
-
-            // Инициализация корабля
-            _ship = new Ship(new Point(10, 400), new Point(5, 5), new Size(10, 10));
-
-            // Инициализация пули
-            try
-            {
-                _bullet = new Bullet(new Point(0, 200), new Point(5, 0), new Size(6, 2));
-            }
-            catch (GameObjectException mes)
-            {
-                Console.WriteLine("Ошибка: ", mes.Message);
-            }
+            _healings = new HealingTool[2];
 
             var rnd = new Random();
+
+            // Инициализация хилки
+            for (var i = 0; i < _healings.Length; i++)
+            {
+                int r = rnd.Next(5, 50);
+                _healings[i] = new HealingTool(Image, new Point(1000, rnd.Next(0, Game.Height)), new Point(-r, r), new Size(40, 40));
+            }
+
+            // Инициализация корабля
+            _ship = new Ship(Image, new Point(10, 400), new Point(5, 5), new Size(40, 40));
 
             // Инициализация планет
             try
@@ -170,11 +194,11 @@ namespace SpaceGame_Shipov
                 for (int i = 0; i < _planets.Length; i += 3)
                 {
                     int r = rnd.Next(5, 50);
-                    _planets[i] = new Planet(Image = Image.FromFile(@"../../Images/Red_Planet.png"), new Point(1000, rnd.Next(0, Game.Height)), new Point(-r / 2, r), new Size(45, 45));
+                    _planets[i] = new Planet(Image = Image.FromFile(@"../../Images/Red_Planet.png"), new Point(1000, rnd.Next(0, Game.Height)), new Point(-r / 2, r), new Size(30, 30));
                     r = rnd.Next(5, 50);
-                    _planets[i + 1] = new Planet(Image = Image.FromFile(@"../../Images/Gas_Giant.png"), new Point(1000, rnd.Next(0, Game.Height)), new Point(-r / 2, r), new Size(60, 60));
+                    _planets[i + 1] = new Planet(Image = Image.FromFile(@"../../Images/Gas_Giant.png"), new Point(1000, rnd.Next(0, Game.Height)), new Point(-r / 2, r), new Size(50, 50));
                     r = rnd.Next(5, 50);
-                    _planets[i + 2] = new Planet(Image = Image.FromFile(@"../../Images/Earth.png"), new Point(1000, rnd.Next(0, Game.Height)), new Point(-r / 2, r), new Size(45, 45));
+                    _planets[i + 2] = new Planet(Image = Image.FromFile(@"../../Images/Earth.png"), new Point(1000, rnd.Next(0, Game.Height)), new Point(-r / 2, r), new Size(40, 40));
                 }
             }
             catch (GameObjectException mes)
@@ -213,7 +237,7 @@ namespace SpaceGame_Shipov
 
         private static void Form_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.ControlKey) _bullet = new Bullet(new Point(_ship.Rect.X + 10, _ship.Rect.Y + 4), new Point(4, 0), new Size(6, 2));
+            if (e.KeyCode == Keys.ControlKey) _bullet = new Bullet(new Point(_ship.Rect.X + 40, _ship.Rect.Y + 20), new Point(4, 0), new Size(6, 2));
             if (e.KeyCode == Keys.Up) _ship.Up();
             if (e.KeyCode == Keys.Down) _ship.Down();
         }
