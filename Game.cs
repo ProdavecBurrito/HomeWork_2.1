@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Windows.Forms;
 using System.Drawing;
+using System.IO;
+
 namespace SpaceGame_Shipov
 {
     static class Game
@@ -18,6 +20,7 @@ namespace SpaceGame_Shipov
         private static Planet[] _planets;
         private static Ship _ship;
         static HealingTool[] _healings;
+        static StreamWriter sw = new StreamWriter(@"../../ShipLog.txt");
 
 
         static Image Image;
@@ -127,6 +130,8 @@ namespace SpaceGame_Shipov
                     var rnd = new Random();
                     _ship.EnegryUp(rnd.Next(15, 25));
                     _score.AddScore(25);
+                    Console.WriteLine(@"Подобранна хилка. Востановленно rnd.Next(15, 25) энергии");
+                    sw.WriteLine(@"Подобранна хилка. Востановленно rnd.Next(15, 25) энергии");
                     continue;
                 }
             }
@@ -140,15 +145,19 @@ namespace SpaceGame_Shipov
 
                 _asteroids[i].Update();
 
+                // Проверка, попала ли пуля в астероид
                 if (_bullet != null && _bullet.Collision(_asteroids[i]))
                 {
                     System.Media.SystemSounds.Hand.Play();
                     _asteroids[i] = null;
                     _bullet = null;
                     _score.AddScore(100);
+                    Console.WriteLine("Сбит астероид. +100 очков");
+                    sw.WriteLine("Сбит астероид. +100 очков");
                     continue;
                 }
 
+                // Проверка, врезался ли корабль в астероид
                 if (!_ship.Collision(_asteroids[i]))
                 {
                     continue;
@@ -158,11 +167,29 @@ namespace SpaceGame_Shipov
                 _ship?.EnergyLow(rnd.Next(15, 25));
                 _asteroids[i] = null;
                 _score.AddScore(-30);
+                Console.WriteLine($"Корабль врезался в астероид. Полученно {rnd.Next(15,25)} урона. -30 очков");
+                sw.WriteLine($"Корабль врезался в астероид. Полученно {rnd.Next(15, 25)} урона. -30 очков");
                 System.Media.SystemSounds.Asterisk.Play();
 
+                // Смерть кора
                 if (_ship.Energy <= 0)
                 {
                     _ship?.Die();
+                    Console.WriteLine("Корабль погиб. Нажмите на F, что бы отдать честь");
+                    sw.WriteLine("Корабль погиб. Нажмите на F, что бы отдать честь");
+                    char r = Console.ReadKey().KeyChar;
+                    Console.WriteLine();
+                    if (r == 'f')
+                    {
+                        Console.WriteLine("Вы почтили память космического скитальца");
+                        sw.WriteLine("Вы почтили память космического скитальца");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Вам не стыдно?");
+                        sw.WriteLine("Вам не стыдно?");
+                    }
+                    sw.Close();
                 }
             }
 
@@ -239,6 +266,7 @@ namespace SpaceGame_Shipov
             Update();
         }
 
+        // Нажатые клавиши
         private static void Form_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.ControlKey) _bullet = new Bullet(new Point(_ship.Rect.X + 40, _ship.Rect.Y + 20), new Point(4, 0), new Size(6, 2));
