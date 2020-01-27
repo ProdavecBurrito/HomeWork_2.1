@@ -13,17 +13,25 @@ namespace SpaceGame_Shipov
         private static Timer _timer;
         public static Random Rnd = new Random();
 
+        delegate void Message(string mes);
+
         static Score _score = new Score();
+
         public static BaseObject[] _objs;
         private static Bullet _bullet;
         private static Asteroid[] _asteroids;
         private static Planet[] _planets;
         private static Ship _ship;
         static HealingTool[] _healings;
+        // Файл для записи лога
         static StreamWriter sw = new StreamWriter(@"../../ShipLog.txt");
 
+        // Создание переменных делегата
+        static Message message = Console.WriteLine;
+        static Message fileMessage = sw.WriteLine;
 
         static Image Image;
+        
         // Свойства
         // Ширина и высота игрового поля
         public static int Width { get; set; }
@@ -130,8 +138,8 @@ namespace SpaceGame_Shipov
                     var rnd = new Random();
                     _ship.EnegryUp(rnd.Next(15, 25));
                     _score.AddScore(25);
-                    Console.WriteLine(@"Подобранна хилка. Востановленно rnd.Next(15, 25) энергии");
-                    sw.WriteLine(@"Подобранна хилка. Востановленно rnd.Next(15, 25) энергии");
+                    message(@"Подобранна хилка. Востановленно rnd.Next(15, 25) энергии");
+                    fileMessage(@"Подобранна хилка. Востановленно rnd.Next(15, 25) энергии");
                     continue;
                 }
             }
@@ -152,8 +160,8 @@ namespace SpaceGame_Shipov
                     _asteroids[i] = null;
                     _bullet = null;
                     _score.AddScore(100);
-                    Console.WriteLine("Сбит астероид. +100 очков");
-                    sw.WriteLine("Сбит астероид. +100 очков");
+                    message("Сбит астероид. +100 очков");
+                    fileMessage("Сбит астероид. +100 очков");
                     continue;
                 }
 
@@ -167,27 +175,27 @@ namespace SpaceGame_Shipov
                 _ship?.EnergyLow(rnd.Next(15, 25));
                 _asteroids[i] = null;
                 _score.AddScore(-30);
-                Console.WriteLine($"Корабль врезался в астероид. Полученно {rnd.Next(15,25)} урона. -30 очков");
-                sw.WriteLine($"Корабль врезался в астероид. Полученно {rnd.Next(15, 25)} урона. -30 очков");
+                message($"Корабль врезался в астероид. Полученно {rnd.Next(15,25)} урона. -30 очков");
+                fileMessage($"Корабль врезался в астероид. Полученно {rnd.Next(15, 25)} урона. -30 очков");
                 System.Media.SystemSounds.Asterisk.Play();
 
                 // Смерть кора
                 if (_ship.Energy <= 0)
                 {
                     _ship?.Die();
-                    Console.WriteLine("Корабль погиб. Нажмите на F, что бы отдать честь");
-                    sw.WriteLine("Корабль погиб. Нажмите на F, что бы отдать честь");
+                    message("Корабль погиб. Нажмите на F, что бы отдать честь");
+                    fileMessage("Корабль погиб. Нажмите на F, что бы отдать честь");
                     char r = Console.ReadKey().KeyChar;
                     Console.WriteLine();
                     if (r == 'f')
                     {
-                        Console.WriteLine("Вы почтили память космического скитальца");
-                        sw.WriteLine("Вы почтили память космического скитальца");
+                        message("Вы почтили память космического скитальца");
+                        fileMessage("Вы почтили память космического скитальца");
                     }
                     else
                     {
-                        Console.WriteLine("Вам не стыдно?");
-                        sw.WriteLine("Вам не стыдно?");
+                        message("Вам не стыдно?");
+                        fileMessage("Вам не стыдно?");
                     }
                     sw.Close();
                 }

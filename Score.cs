@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace SpaceGame_Shipov
 {
+    // Класс для ведения счета
     class Score
     {
         private int _score = 0;
