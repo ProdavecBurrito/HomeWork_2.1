@@ -20,7 +20,7 @@ namespace SpaceGame_Shipov
 
         public static BaseObject[] _objs;
         private static List<Bullet> _bullets = new List<Bullet>();
-        private static Asteroid[] _asteroids;
+        private static List<Asteroid> _asteroids;
         private static Planet[] _planets;
         private static Ship _ship;
         static HealingTool[] _healings;
@@ -50,6 +50,7 @@ namespace SpaceGame_Shipov
             g = form.CreateGraphics();
             // Создаем объект (поверхность рисования) и связываем его с формой
             // Запоминаем размеры формы
+            
             Width = form.ClientSize.Width;
             Height = form.ClientSize.Height;
 
@@ -94,7 +95,7 @@ namespace SpaceGame_Shipov
             {
                 foreach (Bullet b in _bullets)
                 {
-                    b?.Draw();
+                    b.Draw();
                 }
             }
 
@@ -129,7 +130,7 @@ namespace SpaceGame_Shipov
 
             foreach (Bullet b in _bullets)
             {
-                b?.Update();
+                b.Update();
             }
 
             for (int i = 0; i < _healings.Length; i++)
@@ -154,7 +155,7 @@ namespace SpaceGame_Shipov
                 }
             }
 
-            for (var i = 0; i < _asteroids.Length; i++)
+            for (var i = 0; i < _asteroids.Count; i++)
             {
                 if (_asteroids[i] == null)
                 {
@@ -163,24 +164,25 @@ namespace SpaceGame_Shipov
 
                 _asteroids[i].Update();
 
-                for (int j = _bullets.Count; j > 0 ; j--) 
+                for (int j = 0; j < _bullets.Count; j++)
                 {
                     // Проверка, попала ли пуля в астероид
-                    if (_bullets[j] != null && _bullets[j].Collision(_asteroids[i]))
+                    if (_bullets[j].Collision(_asteroids[i]))
                     {
                         System.Media.SystemSounds.Hand.Play();
-                        _asteroids[i] = null;
-                        _bullets[i] = null;
+                        _asteroids.RemoveAt(i);
+                        _bullets.RemoveAt(j);
                         j--;
                         _score.AddScore(100);
                         message("Сбит астероид. +100 очков");
                         fileMessage("Сбит астероид. +100 очков");
                         continue;
+
                     }
                 }
 
                 // Проверка, врезался ли корабль в астероид
-                if (!_ship.Collision(_asteroids[i]))
+                if (_asteroids[i] == null || !_ship.Collision(_asteroids[i]))
                 {
                     continue;
                 }
@@ -226,8 +228,8 @@ namespace SpaceGame_Shipov
         {
             _objs = new BaseObject[50];
             _planets = new Planet[6];
-            _asteroids = new Asteroid[20];
             _healings = new HealingTool[2];
+            _asteroids = new List<Asteroid>();
 
             var rnd = new Random();
 
@@ -269,11 +271,11 @@ namespace SpaceGame_Shipov
             // Инициализация астероидов
             try
             {
-                for (var i = 0; i < _asteroids.Length; i++)
+                for (var i = 0; i < 20; i++)
                 {
                     {
                         int r = rnd.Next(5, 50);
-                        _asteroids[i] = new Asteroid(Image, new Point(1000, rnd.Next(0, Game.Height)), new Point(-r / 5, r), new Size(r, r));
+                        _asteroids.Add(new Asteroid(Image, new Point(1000, rnd.Next(0, Game.Height)), new Point(-r / 5, r), new Size(r, r)));
                     }
                 }
             }
