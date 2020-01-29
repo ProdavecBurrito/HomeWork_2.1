@@ -48,6 +48,7 @@
     <Compile Include="Asteroid.cs" />
     <Compile Include="BaseObject.cs" />
     <Compile Include="Bullet.cs" />
+    <Compile Include="PracticalTask_4_2.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="GameObjectException.cs" />
     <Compile Include="HealingTool.cs" />

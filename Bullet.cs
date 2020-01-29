@@ -25,6 +25,10 @@ namespace SpaceGame_Shipov
         public override void Update()
         {
             Pos.X = Pos.X + 15;
+            if (Pos.X > Game.Width)
+            {
+                Pos.X = Game.Width + Size.Width;
+            }
         }
 
         public void Destroy()

@@ -97,7 +97,7 @@ namespace SpaceGame_Shipov
 
             foreach (Asteroid a in _asteroids)
             {
-                a?.Draw();
+                a.Draw();
             }
 
             if (_bullets.Count != 0)
@@ -168,11 +168,10 @@ namespace SpaceGame_Shipov
             {
                 if(_asteroids.Count == 0)
                 {
-                    Console.WriteLine("krk");
                     asteroidsCounter += 1;
                     for (int j= 0; j < asteroidsCounter; j++)
                     {
-                        int r = new Random().Next(5, 50);
+                        int r = new Random().Next(15, 50);
                         _asteroids.Add(new Asteroid(Image, new Point(1000, new Random().Next(0, Game.Height)), new Point(-r / 5, r), new Size(r, r)));
                     }
                 }
@@ -201,14 +200,14 @@ namespace SpaceGame_Shipov
                 }
 
                 // Проверка, врезался ли корабль в астероид
-                if (!_ship.Collision(_asteroids[i]))
+                if (!_ship.Collision(_asteroids[i]) && _asteroids.Count != 0)
                 {
                     continue;
                 }
 
                 var rnd = new Random();
                 _ship?.EnergyLow(rnd.Next(15, 25));
-                _asteroids[i] = null;
+                _asteroids.RemoveAt(i);
                 _score.AddScore(-30);
                 message($"Корабль врезался в астероид. Полученно {rnd.Next(15,25)} урона. -30 очков");
                 fileMessage($"Корабль врезался в астероид. Полученно {rnd.Next(15, 25)} урона. -30 очков");
@@ -293,7 +292,7 @@ namespace SpaceGame_Shipov
                 for (var i = 0; i < asteroidsCounter; i++)
                 {
                     {
-                        int r = rnd.Next(5, 50);
+                        int r = rnd.Next(15, 50);
                         _asteroids.Add(new Asteroid(Image, new Point(1000, rnd.Next(0, Game.Height)), new Point(-r / 5, r), new Size(r, r)));
                     }
                 }
