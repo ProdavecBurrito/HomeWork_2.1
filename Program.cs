@@ -7,8 +7,9 @@ namespace SpaceGame_Shipov
         static void Main(string[] args)
         {
             Form form = new Form();
-            form.Width = 900;
-            form.Height = 700;
+           
+            form.Width = 800;
+            form.Height = 600;
             Game.Init(form);
             form.Show();
             Game.Draw();
