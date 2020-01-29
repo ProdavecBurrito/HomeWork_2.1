@@ -7,17 +7,20 @@ using System.Drawing;
 
 namespace SpaceGame_Shipov
 {
-    class Asteroid : BaseObject, ICloneable, IDestroy
+    class Asteroid : BaseObject, ICloneable, IDestroy, IComparable
     {
-        public int Power { get; set; }
-        public Asteroid(Point pos, Point dir, Size size) : base(pos, dir, size)
+
+        Image image;
+        public int Power { get; set; } = 3;
+        public Asteroid(Image _image, Point pos, Point dir, Size size) : base(pos, dir, size)
         {
             Power = 1;
+            image = Image.FromFile(@"../../Images/Asteroid.png");
         }
 
         public override void Draw()
         {
-            Game.Buffer.Graphics.FillEllipse(Brushes.White, Pos.X, Pos.Y, Size.Width, Size.Height);
+            Game.Buffer.Graphics.DrawImage(this.image, Pos.X, Pos.Y, Size.Width, Size.Height);
             if (Size.Width > 50 || Size.Height > 50)
             {
                 throw new GameObjectException("Недопустимый размер");
@@ -26,8 +29,10 @@ namespace SpaceGame_Shipov
 
         public object Clone()
         {
-            Asteroid asteroid = new Asteroid(new Point(Pos.X, Pos.Y), new Point(Dir.X, Dir.Y), new Size(Size.Width, Size.Height));
-            asteroid.Power = Power;
+            Asteroid asteroid = new Asteroid(this.image, new Point(Pos.X, Pos.Y), new Point(Dir.X, Dir.Y), new Size(Size.Width, Size.Height))
+            {
+                Power = Power
+            };
             return asteroid;
         }
 
@@ -44,5 +49,20 @@ namespace SpaceGame_Shipov
         {
             Pos.X = Game.Width;
         }
+
+        int IComparable.CompareTo(object obj)
+        {
+            if (obj is Asteroid temp)
+            {
+                if (Power > temp.Power)
+                    return 1;
+                if (Power < temp.Power)
+                    return -1;
+                else
+                    return 0;
+            }
+            throw new ArgumentException("Parameter is not а Asteroid!");
+        }
+
     }
 }
