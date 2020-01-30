@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{095DC927-0947-49D6-9646-1B3601C404F2}</ProjectGuid>
+    <ProjectGuid>{99FDE0B2-F408-4AD7-BB74-59A69E3555F3}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>HomeWork_2._1</RootNamespace>
-    <AssemblyName>HomeWork_2.1</AssemblyName>
+    <RootNamespace>PracticalTask_4_3</RootNamespace>
+    <AssemblyName>PracticalTask_4_3</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -35,8 +35,6 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -45,20 +43,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Asteroid.cs" />
-    <Compile Include="BaseObject.cs" />
-    <Compile Include="Bullet.cs" />
-    <Compile Include="Game.cs" />
-    <Compile Include="GameObjectException.cs" />
-    <Compile Include="HealingTool.cs" />
-    <Compile Include="ICollision.cs" />
-    <Compile Include="IDestroy.cs" />
-    <Compile Include="Planet.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Score.cs" />
-    <Compile Include="Ship.cs" />
-    <Compile Include="Star.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

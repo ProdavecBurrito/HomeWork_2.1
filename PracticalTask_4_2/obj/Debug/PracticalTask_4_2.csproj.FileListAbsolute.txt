@@ -1,0 +1,6 @@
+C:\Users\shipo\source\repos\SpaceGame_Shipov\PracticalTask_4_2\bin\Debug\PracticalTask_4_2.exe.config
+C:\Users\shipo\source\repos\SpaceGame_Shipov\PracticalTask_4_2\bin\Debug\PracticalTask_4_2.exe
+C:\Users\shipo\source\repos\SpaceGame_Shipov\PracticalTask_4_2\bin\Debug\PracticalTask_4_2.pdb
+C:\Users\shipo\source\repos\SpaceGame_Shipov\PracticalTask_4_2\obj\Debug\PracticalTask_4_2.exe
+C:\Users\shipo\source\repos\SpaceGame_Shipov\PracticalTask_4_2\obj\Debug\PracticalTask_4_2.pdb
+C:\Users\shipo\source\repos\SpaceGame_Shipov\PracticalTask_4_2\obj\Debug\PracticalTask_4_2.csprojAssemblyReference.cache

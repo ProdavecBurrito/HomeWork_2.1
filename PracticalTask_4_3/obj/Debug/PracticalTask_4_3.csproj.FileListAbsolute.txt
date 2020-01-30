@@ -1,0 +1,5 @@
+C:\Users\shipo\source\repos\SpaceGame_Shipov\PracticalTask_4_3\bin\Debug\PracticalTask_4_3.exe.config
+C:\Users\shipo\source\repos\SpaceGame_Shipov\PracticalTask_4_3\bin\Debug\PracticalTask_4_3.exe
+C:\Users\shipo\source\repos\SpaceGame_Shipov\PracticalTask_4_3\bin\Debug\PracticalTask_4_3.pdb
+C:\Users\shipo\source\repos\SpaceGame_Shipov\PracticalTask_4_3\obj\Debug\PracticalTask_4_3.exe
+C:\Users\shipo\source\repos\SpaceGame_Shipov\PracticalTask_4_3\obj\Debug\PracticalTask_4_3.pdb
